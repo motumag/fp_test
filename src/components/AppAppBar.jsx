@@ -15,8 +15,8 @@ import ToggleColorMode from "./ToggleColorMode";
 import logoImage from "../../public/static/images/logo.svg";
 
 const logoStyle = {
-  width: "80px",
-  height: "auto",
+  width: "auto",
+  height: "60px",
   cursor: "pointer",
   borderRadius: "60%",
 };
