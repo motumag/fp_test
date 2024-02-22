@@ -142,7 +142,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="text"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-in/"
+                href="/sign-in/"
                 target="_blank"
               >
                 Sign in
@@ -152,7 +152,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="contained"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-up/"
+                href="/sign-up/"
                 target="_blank"
               >
                 Sign up
