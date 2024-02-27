@@ -104,8 +104,8 @@ export default function Hero() {
             width: "100%",
             backgroundImage:
               theme.palette.mode === "light"
-                ? 'url("/static/images/dash-light.png")'
-                : 'url("/static/images/hero-dark.png")',
+                ? 'url("/static/images/fp/img2.png")'
+                : 'url("/static/images/fp/img2.png")',
             backgroundSize: "cover",
             borderRadius: "10px",
             outline: "1px solid",

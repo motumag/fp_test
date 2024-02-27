@@ -5,9 +5,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import ToggleButton from "@mui/material/ToggleButton";
+// import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
+// import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 import LogoCollection from "../components/LogoCollection";
 import Highlights from "../components/Highlights";
 import Pricing from "../components/Pricing";
@@ -18,7 +18,7 @@ import Footer from "../components/Footer";
 import getLPTheme from "./getLPTheme";
 import AppAppBar from "../components/AppAppBar";
 import Hero from "../components/Hero";
-import SvgMaterialDesign from "../components/SvgMaterialDesign";
+// import SvgMaterialDesign from "../components/SvgMaterialDesign";
 
 const defaultTheme = createTheme({});
 
@@ -47,7 +47,7 @@ function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
           },
         }}
       >
-        <ToggleButton value>
+        {/* <ToggleButton value>
           <AutoAwesomeRoundedIcon sx={{ fontSize: "20px", mr: 1 }} />
           Dark theme
         </ToggleButton>
@@ -55,6 +55,7 @@ function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
           <SvgMaterialDesign sx={{ fontSize: "20px", mr: 1 }} />
           Light theme
         </ToggleButton>
+        */}
       </ToggleButtonGroup>
     </Box>
   );

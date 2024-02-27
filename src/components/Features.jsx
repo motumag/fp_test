@@ -43,6 +43,16 @@ const items = [
     imageDark:
       'url("/static/images/templates/templates-images/devices-dark.png")',
   },
+  {
+    icon: <DevicesRoundedIcon />,
+    title: "Available on all platforms",
+    description:
+      "This item could let users know the product is available on all platforms, such as web, mobile, and desktop.",
+    imageLight:
+      'url("/static/images/templates/templates-images/devices-light.png")',
+    imageDark:
+      'url("/static/images/templates/templates-images/devices-dark.png")',
+  },
 ];
 
 export default function Features() {

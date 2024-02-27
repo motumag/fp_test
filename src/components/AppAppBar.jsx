@@ -85,7 +85,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 px: 0,
               }}
             >
-              <img src={logoImage} style={logoStyle} alt="logo of sitemark" />
+              <img src={logoImage} style={logoStyle} alt="fastpay" />
               <Box sx={{ display: { xs: "none", md: "flex" } }}>
                 <MenuItem
                   onClick={() => scrollToSection("features")}
@@ -142,8 +142,8 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="text"
                 size="small"
                 component="a"
-                href="/sign-in/"
-                target="_blank"
+                href="/sign-in"
+                // target="_blank"
               >
                 Sign in
               </Button>
@@ -153,7 +153,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 size="small"
                 component="a"
                 href="/sign-up/"
-                target="_blank"
+                // target="_blank"
               >
                 Sign up
               </Button>
