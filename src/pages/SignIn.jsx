@@ -11,6 +11,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -33,15 +35,55 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  const [formData, setFormData] = useState({});
+  const [registeLoading, setRegisterLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [actualMessage, setActualMessage] = useState("");
+  const naviage = useNavigate();
 
+  const handleChange = (e) => {
+    // e.preventDefault();
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+  console.log("the form data is", formData);
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get("email"),
+  //     password: data.get("password"),
+  //   });
+  // };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      setRegisterLoading(true);
+      const resp = await fetch("/api/auth/sign-in", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await resp.json();
+      setActualMessage(data.message);
+      setRegisterLoading(false);
+      setError(false);
+      if (data.success === false) {
+        setError(true);
+        return;
+      }
+      naviage("/dashboard");
+      console.log("The actual message from backend is: ", actualMessage);
+      console.log("the response is: ", data);
+    } catch (error) {
+      console.log(error);
+      setError(true);
+      setRegisterLoading(false);
+    }
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -75,6 +117,7 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
@@ -85,6 +128,7 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handleChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -96,7 +140,7 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {registeLoading ? "Signing in..." : "Sign In"}
             </Button>
             <Grid container>
               <Grid item xs>
@@ -111,6 +155,7 @@ export default function SignIn() {
               </Grid>
             </Grid>
           </Box>
+          <p className="text-red-500">{error ? actualMessage : ""}</p>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>

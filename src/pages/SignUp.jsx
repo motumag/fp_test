@@ -11,39 +11,52 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+// Here the copy right function is removed
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  const [formData, setFormData] = useState({});
+  const [registeLoading, setRegisterLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [actualMessage, setActualMessage] = useState("");
+  const naviage = useNavigate();
 
+  const handleChange = (e) => {
+    // e.preventDefault();
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+  console.log("the form data is", formData);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      setRegisterLoading(true);
+      const resp = await fetch("/api/auth/sign-up", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await resp.json();
+      setActualMessage(data.message);
+      setRegisterLoading(false);
+      setError(false);
+      if (data.success === false) {
+        setError(true);
+        return;
+      }
+      naviage("/sign-in");
+      console.log("The actual message from backend is: ", actualMessage);
+      console.log("the response is: ", data);
+    } catch (error) {
+      console.log(error);
+      setError(true);
+      setRegisterLoading(false);
+    }
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -69,25 +82,16 @@ export default function SignUp() {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
-                  name="firstName"
+                  autoComplete="user-name"
+                  name="username"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="username"
+                  label="Username"
                   autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -98,6 +102,7 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -109,6 +114,7 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -126,7 +132,7 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              {registeLoading ? "registering" : "Sign Up"}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
@@ -136,8 +142,9 @@ export default function SignUp() {
               </Grid>
             </Grid>
           </Box>
+          <p className="text-red-500">{error ? actualMessage : ""}</p>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        {/*<Copyright sx={{ mt: 5 }} /> */}
       </Container>
     </ThemeProvider>
   );
